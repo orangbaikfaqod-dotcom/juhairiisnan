@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> M Juhairi Isnan</title>
+    <style>
+        body {
+            text-align:center;
+        }
+        .juher{
+            font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        }
+        .malik{
+            padding: 20px;
+            background-color: #575757;
+            color: #1cc242;
+            border-radius: 30px;
+
+        }
+        .malik:hover{
+            background-color:rgb(24, 93, 211)
+            cursor: pointer;
+        }
+        button {
+            padding:15px;
+            background-color: gray;
+            border-radius: 50px;
+            border: solid 3px black;
+        }
+        .popupbelanja {
+    all: unset;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    display: none; /* default tertutup */
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(0,0,0,0.55) !important;
+    backdrop-filter: blur(3px);
+    z-index: 999999 !important;
+    padding: 0 !important;
+}
+
+
+.popupbelanja-box {
+    background: #ffffff;
+    width: 340px;
+    max-width: 92%;
+    padding: 25px;
+    border-radius: 14px;
+    position: relative;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+    animation: popupFadeIn .25s ease-out;
+}
+
+
+@keyframes popupFadeIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+
+.popupbelanja-box input,
+.popupbelanja-box select {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 8px 0 14px 0;
+    border: 1px solid #d0d0d0;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #fafafa;
+    transition: 0.25s;
+}
+
+.popupbelanja-box input:focus,
+.popupbelanja-box select:focus {
+    border-color: #007bff;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.15);
+}
+
+.popupbelanja-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--linkB);
+    color: #FFDF00;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    transition: background 0.25s, transform 0.2s;
+    margin-bottom:10px;
+    text-align: center;
+}
+.popupbelanja-btn:hover {
+    opacity:75%;
+    transform: translateY(-1px);
+}
+
+/* ===========================
+ Replace .drK with your dark theme caller, and if you don&amp;amp;#039;t have one, just delete it.
+   =========================== */
+
+.drK .popupbelanja {
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(2px);
+}
+
+.drK .popupbelanja-box {
+    background: #1f1f1f;
+    color: #e6e6e6;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+}
+
+.drK .popupbelanja-close {
+    color: #bbb;
+}
+.drK .popupbelanja-close:hover {
+    color: #fff;
+}
+
+.drK .popupbelanja-box input,
+.drK .popupbelanja-box select {
+    background: #2b2b2b;
+    border: 1px solid #444;
+    color: #e6e6e6;
+}
+
+.drK .popupbelanja-box input:focus,
+.drK .popupbelanja-box select:focus {
+    border-color: #4da3ff;
+    background: #232323;
+    box-shadow: 0 0 0 3px rgba(77,163,255,0.2);
+}
+
+#customAlert {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: none; /* default hidden */
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(3px);
+    z-index: 10000;
+    padding: 20px;
+}
+
+.customAlertBox {
+    background: #ffffff;
+    padding: 22px 24px;
+    border-radius: 14px;
+    min-width: 260px;
+    max-width: 90%;
+    text-align: center;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e6e6e6;
+    animation: popIn .25s ease;
+}
+
+.customAlertBox p {
+    color: #333;
+    font-size: 15px;
+    line-height: 1.4;
+    margin-bottom: 18px;
+}
+
+.customAlertBox button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    background: var(--lLinkC);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.customAlertBox button:hover {
+    opacity: 75%;
+}
+ 
+    </style>
+</head>
+<body>
+
+   <!-- Popup Belanja -->
+  <div class='popupbelanja' style='display:none;'>
+<div class='popupbelanja-box'>
+
+        <h2>Formulir Pembelian</h2>
+<p>Product: <b id='popupTitle'></p>
+        <form onsubmit='popupBelanjaKirim(event)'>
+            <input name='nama' placeholder='Nama lengkap' required='' type='text'/>
+            <input name='email' placeholder='Email' required='' type='email'/>
+            <input name='telepon' placeholder='Nomor telepon' required='' type='tel'/>
+
+            <select name='metode' required=''>
+                <option disabled='' selected='' value=''>Pilih metode pembayaran</option>
+                <option value='Dana'>Dana</option>
+                <option value='Ovo'>Ovo</option>
+                <option value='Gopay'>Gopay</option>
+                <option value='Transfer Bank'>Transfer Bank</option>
+            </select>
+
+            <button class='popupbelanja-btn' type='submit'>Kirim</button><br/>
+          <p class='note'>Klik Sembarang Untuk Menutup Popup</p>
+        </form>
+    </div>
+  </div>
+<div id='customAlert' style='display:none;'>
+    <div class='customAlertBox'>
+        <p id='customAlertMessage'>
+        <button id='customAlertBtn'>OK</button>
+    </div>
+</div>
+  <!-- Akhir Popup Belanja -->
+       
+<h1 class="juher">Juhairi Isnan ganteng</h1>
+
+<p>Ini adalah keseharian Isnan</p>
+<a><button>Klik Disini untuk Masuk</button></a>
+   <a class="button" onclick="popupBelanjaBuka()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24"><path fill="currentColor" d="M17 18a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2M1 2h3.27l.94 2H20a1 1 0 0 1 1 1c0 .17-.05.34-.12.5l-3.58 6.47c-.34.61-1 1.03-1.75 1.03H8.1l-.9 1.63l-.03.12a.25.25 0 0 0 .25.25H19v2H7a2 2 0 0 1-2-2c0-.35.09-.68.24-.96l1.36-2.45L3 4H1zm6 16a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2c0-1.11.89-2 2-2m9-7l2.78-5H6.14l2.36 5z"/></svg>Checkout Now</a>
+<script>
+const PB_BOT = "Change this with your Telegram bot API key.";
+const PB_CHAT = "Change this with your Telegram bot Chat ID.";
+
+/* =============================
+      CUSTOM ALERT
+   ============================= */
+function customAlert(message) {
+    let alertDiv = document.getElementById("customAlert");
+    let alertMsg = document.getElementById("customAlertMessage");
+    let alertBtn = document.getElementById("customAlertBtn");
+
+    if (!alertDiv) {
+        // buat element alert kalau belum ada
+        alertDiv = document.createElement("div");
+        alertDiv.id = "customAlert";
+        alertDiv.style.cssText = "display:none;position:fixed;top:0;left:0;right:0;bottom:0;justify-content:center;align-items:center;background:rgba(0,0,0,0.5);z-index:10000;";
+        
+        const alertBox = document.createElement("div");
+        alertBox.className = "customAlertBox";
+        alertBox.style.cssText = "background:#333;color:#fff;padding:20px;border-radius:8px;min-width:250px;text-align:center;box-shadow:0 0 10px rgba(0,0,0,0.3);";
+        
+        alertMsg = document.createElement("p");
+        alertMsg.id = "customAlertMessage";
+        alertBox.appendChild(alertMsg);
+        
+        alertBtn = document.createElement("button");
+        alertBtn.id = "customAlertBtn";
+        alertBtn.textContent = "OK";
+        alertBtn.style.cssText = "margin-top:15px;padding:5px 15px;border:none;border-radius:4px;background:#555;color:#fff;cursor:pointer;";
+        alertBtn.onmouseover = () => alertBtn.style.background = "#777";
+        alertBtn.onmouseout = () => alertBtn.style.background = "#555";
+        alertBox.appendChild(alertBtn);
+        
+        alertDiv.appendChild(alertBox);
+        document.body.appendChild(alertDiv);
+    }
+
+    alertMsg.textContent = message;
+    alertDiv.style.display = "flex";
+
+    alertBtn.onclick = () => {
+        alertDiv.style.display = "none";
+    };
+}
+
+function popupBelanjaBuka() {
+    const pop = document.querySelector(".popupbelanja");
+    if (pop) pop.style.display = "flex";
+
+    document.querySelector('#popupTitle').innerText = document.title;
+}
+
+function popupBelanjaTutup() {
+    const pop = document.querySelector(".popupbelanja");
+    if (pop) pop.style.display = "none";
+}
+document.addEventListener("click", function(e) {
+    const popup = document.querySelector(".popupbelanja");
+    if (!popup || popup.style.display === "none") return;
+
+    if (e.target === popup) {
+        popupBelanjaTutup();
+    }
+});
+
+function popupBelanjaKirim(event) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const nama = form.querySelector("input[name='nama']").value;
+    const email = form.querySelector("input[name='email']").value;
+    const telepon = form.querySelector("input[name='telepon']").value;
+    const metode = form.querySelector("select[name='metode']").value;
+
+    const judul = document.title;
+
+    const msg = `
+📌 *Form Pembelian Baru*
+----------------------
+📄 *Title:* ${judul}
+👤 *Name:* ${nama}
+📧 *Email:* ${email}
+📱 *Phone:* ${telepon}
+💳 *Payment Methods:* ${metode}
+`;
+
+    fetch(`https://api.telegram.org/bot${PB_BOT}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            chat_id: PB_CHAT,
+            text: msg,
+            parse_mode: "Markdown"
+        })
+    })
+    .then(() => {
+        customAlert("Pesanan Anda telah kami terima. Silakan tunggu konfirmasi dari kami dalam waktu 1–7 hari");
+        popupBelanjaTutup();
+        form.reset();
+    })
+    .catch(() => customAlert("Gagal mengirim!"));
+}
+</script>
+    
+</body>
+</html>
